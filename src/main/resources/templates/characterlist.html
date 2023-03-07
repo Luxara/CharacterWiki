@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Characters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+	<div class="container text-center">
+		<H1>Characters</H1>
+		
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th>Gender</th>
+					<th>Race</th>
+					<th>Origin</th>
+					<th>Home</th>
+					<th>Flavor text</th>
+					<th></th>
+					<th></th>
+				</tr>
+				
+				<tr th:each = "character : ${characters}">
+					<td th:text="${character.name}"></td>
+					<td th:text="${character.age}"></td>
+					<td th:text="${character.gender}"></td>
+					<td th:text="${character.race}"></td>
+					<td th:text="${character.origin}"></td>
+					<td th:text="${character.currentLocation}"></td>
+					<td th:text="${character.story}"></td>
+					<td><a th:href="@{/edit/{id}(id=${character.id})}"><button type="button" class="btn btn-success">Edit</button></a></td>
+					<td><a th:href="@{/delete/{id}(id=${character.id})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="/add"><button type="button" class="btn btn-success">Add new character</button></a>
+	</div>
+	
+</body>
+</html>
