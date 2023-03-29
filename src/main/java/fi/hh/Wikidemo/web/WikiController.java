@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.hh.Wikidemo.domain.Character;
 import fi.hh.Wikidemo.domain.CharacterRepository;
+import fi.hh.Wikidemo.domain.Location;
+import fi.hh.Wikidemo.domain.LocationRepository;
 
 @Controller
 public class WikiController {
@@ -20,6 +22,10 @@ public class WikiController {
 	@Autowired
 	private CharacterRepository chararepository;
 	
+	@Autowired
+	private LocationRepository locationrepository;
+	
+	
 	@RequestMapping(value="/characterlist", method=RequestMethod.GET)
 		public String showCharacters(Model model){
 			model.addAttribute("characters", chararepository.findAll());
@@ -29,6 +35,7 @@ public class WikiController {
 	@RequestMapping(value="/add")
 		public String AddCharacter(Model model){
 			model.addAttribute("newCharacter", new Character());
+			model.addAttribute("locations", locationrepository.findAll());
 			return "addCharacter";
 	}
 	
@@ -39,8 +46,9 @@ public class WikiController {
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
-	public String editBook(@PathVariable("id") Long id, Model model){
+	public String editCharacter(@PathVariable("id") Long id, Model model){
 	model.addAttribute("editableCharacter", chararepository.findById(id));
+	model.addAttribute("locations", locationrepository.findAll());
 	return "editCharacter";
 }
 	
@@ -48,5 +56,35 @@ public class WikiController {
 		public String saveCharacter(Character character){
 			chararepository.save(character);
 			return "redirect:characterlist";
+	}
+	
+	@RequestMapping(value="/locationlist", method=RequestMethod.GET)
+	public String showLocations(Model model){
+		model.addAttribute("locations", locationrepository.findAll());
+		return "locationlist";
+	}
+	
+	@RequestMapping(value="/addLocation")
+	public String AddLocation(Model model){
+		model.addAttribute("newLocation", new Location());
+		return "addLocation";
+	}
+
+	@RequestMapping(value="/deleteLocation/{locationid}", method=RequestMethod.GET)
+	public String deleteLocation(@PathVariable("locationid") Long locationid, Model model){
+		locationrepository.deleteById(locationid);
+		return "redirect:../locationlist";
+	}
+
+	@RequestMapping(value="/editLocation/{locationid}", method=RequestMethod.GET)
+	public String editLocation(@PathVariable("locationid") Long locationid, Model model){
+		model.addAttribute("editableLocation", locationrepository.findById(locationid));
+		return "editLocation";
+	}
+	
+	@RequestMapping(value="/saveLocation", method=RequestMethod.POST)
+	public String saveLocation(Location location){
+		locationrepository.save(location);
+		return "redirect:locationlist";
 	}
 }

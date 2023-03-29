@@ -47,8 +47,10 @@ xmlns:th="http://www.thymeleaf.org">
 			</div>
 			
 			<div class="mb-3">
-			<label for="currentLocation" class="form-label">Home</label>
-			<input type="text" id="currentLocation" class="form-control" th:field="*{currentLocation}"/>
+			<label for="locationlist" class="form-label">Current home</label><br>
+			<select id="locationlist" class="form-select" th:field="*{home}">
+				<option th:each="home: ${locations}" th:value="${home.locationid}" th:text="${home.name}"></option>
+			</select>
 			</div>
 			</div>
 			

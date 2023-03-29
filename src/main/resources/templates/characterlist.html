@@ -31,7 +31,7 @@ xmlns:th="http://www.thymeleaf.org">
 					<td th:text="${character.gender}"></td>
 					<td th:text="${character.race}"></td>
 					<td th:text="${character.origin}"></td>
-					<td th:text="${character.currentLocation}"></td>
+					<td th:text="${character.home.name}"></td>
 					<td th:text="${character.story}"></td>
 					<td><a th:href="@{/edit/{id}(id=${character.id})}"><button type="button" class="btn btn-success">Edit</button></a></td>
 					<td><a th:href="@{/delete/{id}(id=${character.id})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
