@@ -1,6 +1,7 @@
 package fi.hh.Wikidemo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class WikiController {
 	}
 	
 	@RequestMapping(value="/add")
+	@PreAuthorize("hasAuthority('ADMIN')")
 		public String AddCharacter(Model model){
 			model.addAttribute("newCharacter", new Character());
 			model.addAttribute("locations", locationrepository.findAll());
@@ -40,12 +42,14 @@ public class WikiController {
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 		public String deleteCharacter(@PathVariable("id") Long id, Model model){
 			chararepository.deleteById(id);
 			return "redirect:../characterlist";
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String editCharacter(@PathVariable("id") Long id, Model model){
 	model.addAttribute("editableCharacter", chararepository.findById(id));
 	model.addAttribute("locations", locationrepository.findAll());
@@ -65,18 +69,21 @@ public class WikiController {
 	}
 	
 	@RequestMapping(value="/addLocation")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String AddLocation(Model model){
 		model.addAttribute("newLocation", new Location());
 		return "addLocation";
 	}
 
 	@RequestMapping(value="/deleteLocation/{locationid}", method=RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String deleteLocation(@PathVariable("locationid") Long locationid, Model model){
 		locationrepository.deleteById(locationid);
 		return "redirect:../locationlist";
 	}
 
 	@RequestMapping(value="/editLocation/{locationid}", method=RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String editLocation(@PathVariable("locationid") Long locationid, Model model){
 		model.addAttribute("editableLocation", locationrepository.findById(locationid));
 		return "editLocation";

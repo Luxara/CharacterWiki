@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <title>Characters</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -11,24 +10,30 @@ xmlns:th="http://www.thymeleaf.org">
 	<div class="container text-center">
 		<H1>Locations</H1>
 		
+		<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+		</div>
+		
 		<table class="table table-striped">
 			<tbody>
 				<tr>
 					<th>Name</th>
 					<th>Description</th>
-					<th></th>
-					<th></th>
+					<th sec:authorize="hasAuthority('ADMIN')"></th>
+					<th sec:authorize="hasAuthority('ADMIN')"></th>
 				</tr>
 				
 				<tr th:each = "location : ${locations}">
 					<td th:text="${location.name}"></td>
 					<td th:text="${location.text}"></td>
-					<td><a th:href="@{/editLocation/{locationid}(locationid=${location.locationid})}"><button type="button" class="btn btn-success">Edit</button></a></td>
-					<td><a th:href="@{/deleteLocation/{locationid}(locationid=${location.locationid})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/editLocation/{locationid}(locationid=${location.locationid})}"><button type="button" class="btn btn-success">Edit</button></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/deleteLocation/{locationid}(locationid=${location.locationid})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
 				</tr>
 			</tbody>
 		</table>
-		<a href="/addLocation"><button type="button" class="btn btn-success">Add new location</button></a>
+		<a sec:authorize="hasAuthority('ADMIN')" href="/addLocation"><button type="button" class="btn btn-success">Add new location</button></a>
 	</div>
 	
 </body>

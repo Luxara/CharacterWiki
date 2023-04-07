@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <title>Characters</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,6 +9,12 @@ xmlns:th="http://www.thymeleaf.org">
 
 	<div class="container text-center">
 		<H1>Characters</H1>
+		
+		<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+		</div>
 		
 		<table class="table table-striped">
 			<tbody>
@@ -21,8 +26,8 @@ xmlns:th="http://www.thymeleaf.org">
 					<th>Origin</th>
 					<th>Home</th>
 					<th>Flavor text</th>
-					<th></th>
-					<th></th>
+					<th sec:authorize="hasAuthority('ADMIN')"></th>
+					<th sec:authorize="hasAuthority('ADMIN')"> </th>
 				</tr>
 				
 				<tr th:each = "character : ${characters}">
@@ -33,12 +38,12 @@ xmlns:th="http://www.thymeleaf.org">
 					<td th:text="${character.origin}"></td>
 					<td th:text="${character.home.name}"></td>
 					<td th:text="${character.story}"></td>
-					<td><a th:href="@{/edit/{id}(id=${character.id})}"><button type="button" class="btn btn-success">Edit</button></a></td>
-					<td><a th:href="@{/delete/{id}(id=${character.id})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${character.id})}"><button type="button" class="btn btn-success">Edit</button></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${character.id})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
 				</tr>
 			</tbody>
 		</table>
-		<a href="/add"><button type="button" class="btn btn-success">Add new character</button></a>
+		<a sec:authorize="hasAuthority('ADMIN')" href="/add"><button type="button" class="btn btn-success">Add new character</button></a>
 	</div>
 	
 </body>
