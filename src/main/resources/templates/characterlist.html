@@ -7,13 +7,20 @@
 </head>
 <body>
 
-	<div class="container text-center">
+	<div class=" container text-center">
 		<H1>Characters</H1>
 		
-		<div class="col-md-4" style="padding:20px 0">
+		<div class="d-flex ">
+		
+		<div class="me-1" style="padding:10px 0"><button type="button" class="btn btn-primary" disabled>Characters</button></div>
+		<div class="me-1" style="padding:10px 0"><a href="/locationlist"><button type="button" class="btn btn-outline-primary">Locations</button></a></div>
+		
+		<div class="ms-auto" style="padding:10px 0">
 		<form th:action="@{/logout}" method="post">
-			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+			<input type="submit" value="Sign Out" class="btn btn-outline-danger ml-auto"/>
 		</form>
+		</div>
+		
 		</div>
 		
 		<table class="table table-striped">

@@ -7,17 +7,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
-@Entity
+@Entity (name="characters")
 public class Character {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String name, age, gender, race, origin, story;
+	
+	
+	@Size(min=1, max=150, message="")
+	@NotEmpty(message="Cannot be empty.")
+	private String name, race;
+	private String age, gender, origin, story;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "locationid")
+	@JoinColumn(name = "home")
 	private Location home;
 
 	public Character(){

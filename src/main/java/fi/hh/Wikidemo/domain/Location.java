@@ -8,16 +8,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-@Entity
+@Entity (name="locations")
 public class Location {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long locationid;
-	private String name, text;
+	
+	
+	@Size(min=1, max=250, message="")
+	@NotEmpty(message="Cannot be empty.")
+	private String name;
+	private String text;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="home")
 	@JsonIgnore

@@ -1,9 +1,13 @@
 package fi.hh.Wikidemo.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,7 +61,13 @@ public class WikiController {
 }
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-		public String saveCharacter(Character character){
+		public String saveCharacter(@Valid @ModelAttribute("newCharacter") Character character,BindingResult bindingResult, Model model){
+			
+			if(bindingResult.hasErrors()){
+				model.addAttribute("locations", locationrepository.findAll());
+				return "addCharacter";
+			}
+			
 			chararepository.save(character);
 			return "redirect:characterlist";
 	}
@@ -90,7 +100,11 @@ public class WikiController {
 	}
 	
 	@RequestMapping(value="/saveLocation", method=RequestMethod.POST)
-	public String saveLocation(Location location){
+	public String saveLocation(@Valid @ModelAttribute("newLocation") Location location, BindingResult bindingResult){
+		
+		if(bindingResult.hasErrors()){
+			return "addLocation";
+		}
 		locationrepository.save(location);
 		return "redirect:locationlist";
 	}

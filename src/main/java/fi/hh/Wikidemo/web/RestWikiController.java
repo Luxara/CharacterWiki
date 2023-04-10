@@ -3,6 +3,7 @@ package fi.hh.Wikidemo.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +25,13 @@ public class RestWikiController {
 	@Autowired
 	LocationRepository locationRepository;
 	
+	@CrossOrigin(origins = "*") //CrossOrigin access for own client side testing purposes
 	@GetMapping("/characters")
 	public Iterable<Character> getCharacters(){
 		return characterRepository.findAll();
 	}
 	
+	@CrossOrigin(origins = "*") //CrossOrigin access for own client side testing purposes
 	@GetMapping("/characters/{id}")
 	public Optional<Character> findCharacter(@PathVariable Long id){
 		return characterRepository.findById(id);
